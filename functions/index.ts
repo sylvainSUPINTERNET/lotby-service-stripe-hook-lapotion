@@ -39,6 +39,15 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
         });
     });
 
+    instance.get("/test", async (req: FastifyRequest, res: FastifyReply) => {
+        console.log("wat")
+        res.status(200).headers({
+            "Content-Type": "application/json"
+        }).send({
+            "message": "OK"
+        });
+    });
+
     instance.register(async (instance: FastifyInstance, opts: FastifyServerOptions, done) => {
 
         instance.get('/', async (req: FastifyRequest<CustomRouteGenericQuery>, res: FastifyReply) => {
