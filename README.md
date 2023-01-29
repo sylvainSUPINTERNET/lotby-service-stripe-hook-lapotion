@@ -1,0 +1,1 @@
+type "C:\Windows\system32\cmd.exe" > cmd.exe
