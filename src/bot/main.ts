@@ -14,7 +14,7 @@ server.get("/users", async (_req, reply): Promise<any> => {
 });
 
 
-server.listen({port: parseInt(process.env.PORT!) || 3000}, (err, address) => {
+server.listen({port: parseInt(process.env.PORT!) || 8080}, (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);
