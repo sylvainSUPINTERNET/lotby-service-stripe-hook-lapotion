@@ -24,6 +24,7 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
         const signature = req.headers['stripe-signature'];
 
         // Webhook secret => TODO : move to env and using different dev / prod
+        
         const endpointSecret  = process.env.STRIPE_WEBHOOK_SECRET_TEST;
 
         let event;
