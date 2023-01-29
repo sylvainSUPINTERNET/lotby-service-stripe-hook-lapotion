@@ -16,14 +16,14 @@ interface CustomRouteGenericQuery {
     Querystring: IQueryString
 }
 
-export default async function (instance: FastifyInstance, opts: FastifyServerOptions, done) {
+export default async function (instance: FastifyInstance, opts: FastifyServerOptions, done:any) {
 
 
-    // instance.get('/', async (req: FastifyRequest, res: FastifyReply) => {
-    //     res.status(200).send({
-    //         hello: 'World'
-    //     })
-    // })
+    instance.get('/', async (req: FastifyRequest, res: FastifyReply) => {
+        res.status(200).send({
+            hello: 'World'
+        })
+    })
 
     instance.register(async (instance: FastifyInstance, opts: FastifyServerOptions, done) => {
 
