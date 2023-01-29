@@ -1,9 +1,10 @@
 
 import fastify from "fastify";
 
-const server = fastify();
+const server = fastify({
+    logger: true
+});
 
-server.
 
 server.get("/users", async (_req, reply): Promise<any> => {
     reply
@@ -12,7 +13,8 @@ server.get("/users", async (_req, reply): Promise<any> => {
     .send({ hello: 'world' })
 });
 
-server.listen({port: 3000}, (err, address) => {
+
+server.listen({port: parseInt(process.env.PORT!) || 3000}, (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);
