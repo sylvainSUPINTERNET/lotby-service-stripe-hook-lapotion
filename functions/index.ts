@@ -28,13 +28,13 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
         const endpointSecret  = process.env.STRIPE_WEBHOOK_SECRET_TEST;
 
         // console.log(signature)
-        console.log(endpointSecret)
+        // console.log(endpointSecret)
         // console.log(req.body)
 
         let event;
 
         try {
-            event = stripe.webhooks.constructEvent(req.body, signature, endpointSecret);
+            event = stripe.webhooks.constructEvent(JSON.stringify(req.body), signature, endpointSecret);
             console.log(event);
         } catch (err) {
             console.log("Error", err);
