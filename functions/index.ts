@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyReply, FastifyRequest, FastifyServerOptions } from 'fastify'
-
+const stripe = require('stripe');
 interface IQueryString {
     name: string;
 }
@@ -19,19 +19,26 @@ interface CustomRouteGenericQuery {
 export default async function (instance: FastifyInstance, opts: FastifyServerOptions, done:any) {
 
 
-    // TODO:  This is "out" of prefix hello this path
-    instance.get('/', async (req: FastifyRequest, res: FastifyReply) => {
-        console.log("wut")
-        res.status(200).send({
-            hello: 'World'
-        })
-    })
-
-
+    // this is not using the prefix here !
     instance.post("/webhook", async (req: FastifyRequest, res: FastifyReply) => { 
         const signature = req.headers['stripe-signature'];
-        console.log("WEBHOOK");
-        console.log(signature);
+
+        // Webhook secret => TODO : move to env and using different dev / prod
+        const endpointSecret  = process.env.STRIPE_WEBHOOK_SECRET_TEST;
+
+        let event;
+
+        try {
+            event = stripe.webhooks.constructEvent(req.body, signature, endpointSecret);
+            console.log(event);
+        } catch (err) {
+            console.log("Error", err);
+            // TODO envoyer un message ici à moi même
+            res.status(400).send({
+                "error": err
+            });
+        }
+
 
         res.status(200).headers({
             "Content-Type": "application/json"
