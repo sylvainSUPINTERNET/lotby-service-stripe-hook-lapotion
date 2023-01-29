@@ -20,11 +20,12 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
 
 
     // TODO:  This is "out" of prefix hello this path
-    // instance.get('/', async (req: FastifyRequest, res: FastifyReply) => {
-    //     res.status(200).send({
-    //         hello: 'World'
-    //     })
-    // })
+    instance.get('/', async (req: FastifyRequest, res: FastifyReply) => {
+        console.log("wut")
+        res.status(200).send({
+            hello: 'World'
+        })
+    })
 
 
     instance.post("/webhook", async (req: FastifyRequest, res: FastifyReply) => { 
@@ -39,14 +40,6 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
         });
     });
 
-    instance.get("/test", async (req: FastifyRequest, res: FastifyReply) => {
-        console.log("wat")
-        res.status(200).headers({
-            "Content-Type": "application/json"
-        }).send({
-            "message": "OK"
-        });
-    });
 
     instance.register(async (instance: FastifyInstance, opts: FastifyServerOptions, done) => {
 
