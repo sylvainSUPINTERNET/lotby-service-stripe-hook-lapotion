@@ -37,7 +37,7 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
         let event;
 
         try {
-            console.log(req.body);
+            // Here the req.body is JSON as string ( required by Stripe )
             event = stripe.webhooks.constructEvent(req.body, signature, endpointSecret);
             console.log(event);
         } catch (err) {
