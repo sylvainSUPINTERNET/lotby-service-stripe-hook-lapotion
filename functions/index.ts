@@ -19,11 +19,25 @@ interface CustomRouteGenericQuery {
 export default async function (instance: FastifyInstance, opts: FastifyServerOptions, done:any) {
 
 
+    // TODO:  This is "out" of prefix hello this path
     // instance.get('/', async (req: FastifyRequest, res: FastifyReply) => {
     //     res.status(200).send({
     //         hello: 'World'
     //     })
     // })
+
+
+    instance.post("/webhook", async (req: FastifyRequest, res: FastifyReply) => { 
+        const signature = req.headers['stripe-signature'];
+        console.log("WEBHOOK");
+        console.log(signature);
+
+        res.status(200).headers({
+            "Content-Type": "application/json"
+        }).send({
+            "message": "OK"
+        });
+    });
 
     instance.register(async (instance: FastifyInstance, opts: FastifyServerOptions, done) => {
 
@@ -39,7 +53,7 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
 
         done()
     }, {
-        prefix: '/hello'
+        prefix: '/api'
     })
 
     done()
