@@ -27,9 +27,9 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
 
         const endpointSecret  = process.env.STRIPE_WEBHOOK_SECRET_TEST;
 
-        console.log(signature)
+        // console.log(signature)
         console.log(endpointSecret)
-        console.log(req.body)
+        // console.log(req.body)
 
         let event;
 
