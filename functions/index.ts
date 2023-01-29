@@ -18,9 +18,12 @@ interface CustomRouteGenericQuery {
 
 export default async function (instance: FastifyInstance, opts: FastifyServerOptions, done:any) {
 
+    // This is parse payload as "raw". required for Stripe, but means if you need JSON you need to JSON.parse before ...
+    instance.addContentTypeParser('application/json', { parseAs: 'string' }, function (req, body, done) { done(null, body); })
 
     // this is not using the prefix here !
-    instance.post("/webhook", async (req: FastifyRequest, res: FastifyReply) => { 
+    instance
+    .post("/webhook", async (req: FastifyRequest, res: FastifyReply) => { 
         const signature = req.headers['stripe-signature'];
 
         // Webhook secret => TODO : move to env and using different dev / prod
