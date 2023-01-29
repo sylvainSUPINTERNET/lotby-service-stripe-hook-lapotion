@@ -19,11 +19,11 @@ interface CustomRouteGenericQuery {
 export default async function (instance: FastifyInstance, opts: FastifyServerOptions, done) {
 
 
-    instance.get('/', async (req: FastifyRequest, res: FastifyReply) => {
-        res.status(200).send({
-            hello: 'World'
-        })
-    })
+    // instance.get('/', async (req: FastifyRequest, res: FastifyReply) => {
+    //     res.status(200).send({
+    //         hello: 'World'
+    //     })
+    // })
 
     instance.register(async (instance: FastifyInstance, opts: FastifyServerOptions, done) => {
 
@@ -36,6 +36,7 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
             const { name = '' } = req.params
             res.status(200).send(`Hello ${name}`)
         })
+
         done()
     }, {
         prefix: '/hello'
