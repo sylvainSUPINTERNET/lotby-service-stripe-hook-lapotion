@@ -59,6 +59,9 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
     instance.post("/telegram", async (req,res) => {
         try {
 
+
+            // TODO => current problem is we can handle only 40 connection to this webhook 
+            // TODO maybe we can use a queue to handle this ? ( create new webhook for each user ? ) based on the token for the URI and doing it in param for post request path ( the one for the webhook)
             
             // {"update_id":837341881,"message":{"message_id":24,"from":{"id":5550135310,"is_bot":false,"first_name":"Sylvain","last_name":"Joly","language_code":"fr"},"chat":{"id":5550135310,"first_name":"Sylvain","last_name":"Joly","type":"private"},"date":1675117544,"text":"eza"}}
 
@@ -66,7 +69,7 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
             const message:IMessageFromTelegram = JSON.parse(req.body as string) as IMessageFromTelegram;
 
             const telegramSendImageOptions = {
-                url: `${TELEGRAM_API}/sendMessage?chat_id=${message.message.chat.id}&${"text".concat("=", encodeURIComponent(message.message.text))}"}`,
+                url: `${TELEGRAM_API}/sendMessage?chat_id=${message.message.chat.id}&${"text".concat("=", encodeURIComponent(message.message.text))}"`,
                 method: "POST",
             }
             
