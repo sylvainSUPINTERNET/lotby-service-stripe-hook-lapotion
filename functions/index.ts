@@ -54,9 +54,6 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
     // https://telegram-bot-sdk.readme.io/reference/getme
     instance.post("/telegram", async (req,res) => {
         try {
-
-            console.log(req.body);
-
             // {"update_id":837341881,"message":{"message_id":24,"from":{"id":5550135310,"is_bot":false,"first_name":"Sylvain","last_name":"Joly","language_code":"fr"},"chat":{"id":5550135310,"first_name":"Sylvain","last_name":"Joly","type":"private"},"date":1675117544,"text":"eza"}}
 
             const message:IMessageFromTelegram = req.body as IMessageFromTelegram;
@@ -66,7 +63,7 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
                 method: "POST",
             }
             
-            // await axios(telegramSendImageOptions);
+            await axios(telegramSendImageOptions);
 
             res.status(200).send("OK");
 
