@@ -31,14 +31,16 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
     // https://telegram-bot-sdk.readme.io/reference/getme
     instance.post("/telegram", async (req,res) => {
         try {
-            const { message: { chat: { id }, document } } = (req.body as any);
 
-            const telegramSendImageOptions = {
-                url: `${TELEGRAM_API}/sendMessage?chat_id=${id}&${"text=Hello"}`,
-                method: "POST",
-            }
+            console.log(req.body);
+            // const { message: { chat: { id }, document } } = (req.body as any);
+
+            // const telegramSendImageOptions = {
+            //     url: `${TELEGRAM_API}/sendMessage?chat_id=${id}&${"text=Hello"}`,
+            //     method: "POST",
+            // }
             
-            await axios(telegramSendImageOptions);
+            // await axios(telegramSendImageOptions);
 
             res.status(200).send("OK");
 
