@@ -51,12 +51,19 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
     // https://xabaras.medium.com/setting-your-telegram-bot-webhook-the-easy-way-c7577b2d6f72
     // https://api.telegram.org/bot<token>/setWebhook?url=https://lotby-service-stripe-hook-lapotion.vercel.app/telegram
 
+    // This is parse payload as "raw". required for Stripe, but means if you need JSON you need to JSON.parse before ...
+    instance.addContentTypeParser('application/json', { parseAs: 'string' }, function (req, body, done) { done(null, body); })
+
+
     // https://telegram-bot-sdk.readme.io/reference/getme
     instance.post("/telegram", async (req,res) => {
         try {
+
+            
             // {"update_id":837341881,"message":{"message_id":24,"from":{"id":5550135310,"is_bot":false,"first_name":"Sylvain","last_name":"Joly","language_code":"fr"},"chat":{"id":5550135310,"first_name":"Sylvain","last_name":"Joly","type":"private"},"date":1675117544,"text":"eza"}}
 
-            const message:IMessageFromTelegram = req.body as IMessageFromTelegram;
+            // Make sure to JSON.parse since we applied addContentTypeParser for Stripe webhook !
+            const message:IMessageFromTelegram = JSON.parse(req.body as string) as IMessageFromTelegram;
 
             const telegramSendImageOptions = {
                 url: `${TELEGRAM_API}/sendMessage?chat_id=${message.message.chat.id}&${encodeURIComponent("yop")}`,
@@ -74,8 +81,6 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
     })
 
 
-    // This is parse payload as "raw". required for Stripe, but means if you need JSON you need to JSON.parse before ...
-    instance.addContentTypeParser('application/json', { parseAs: 'string' }, function (req, body, done) { done(null, body); })
 
     // this is not using the prefix here !
     instance
