@@ -57,13 +57,14 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
 
             console.log(req.body);
 
-            // const { message: { from: {first_name, last_name}, chat: { id }, text } } = req.body as IMessageFromTelegram;
+            // {"update_id":837341881,"message":{"message_id":24,"from":{"id":5550135310,"is_bot":false,"first_name":"Sylvain","last_name":"Joly","language_code":"fr"},"chat":{"id":5550135310,"first_name":"Sylvain","last_name":"Joly","type":"private"},"date":1675117544,"text":"eza"}}
 
+            const message:IMessageFromTelegram = req.body as IMessageFromTelegram;
 
-            // const telegramSendImageOptions = {
-            //     url: `${TELEGRAM_API}/sendMessage?chat_id=${id}&${encodeURIComponent(text)}`,
-            //     method: "POST",
-            // }
+            const telegramSendImageOptions = {
+                url: `${TELEGRAM_API}/sendMessage?chat_id=${message.message.chat.id}&${encodeURIComponent("yop")}`,
+                method: "POST",
+            }
             
             // await axios(telegramSendImageOptions);
 
