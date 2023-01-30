@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyReply, FastifyRequest, FastifyServerOptions } from 'fastify'
-import { bot, telegramWebhook } from '../api/serverless';
+import { bot } from '../api/serverless';
 const stripe = require('stripe');
 
 
@@ -23,10 +23,10 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
   
 
     
-      instance.post(bot.secretPathComponent(), async (req,res) => {
+    instance.post(bot.secretPathComponent(), async (req,res) => {
         console.log("the fuck");
-              (await telegramWebhook)(req.raw, res.raw)
-      })
+        res.status(200).send("OK");
+    })
 
 
     // This is parse payload as "raw". required for Stripe, but means if you need JSON you need to JSON.parse before ...
