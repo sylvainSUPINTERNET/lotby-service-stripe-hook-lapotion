@@ -21,6 +21,29 @@ interface CustomRouteGenericQuery {
     Querystring: IQueryString
 }
 
+
+interface IMessageFromTelegram {
+    update_id: number;
+    message: {
+        message_id: number;
+        from: {
+            id: number;
+            is_bot: boolean;
+            first_name: string;
+            last_name: string;
+            language_code: string;
+        };
+        chat: {
+            id: number;
+            first_name: string;
+            last_name: string;
+            type: string;
+        };
+        date: number;
+        text: string;
+    }
+}
+
 export default async function (instance: FastifyInstance, opts: FastifyServerOptions, done:any) {
     
     // Fist create the webhook
@@ -32,15 +55,15 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
     instance.post("/telegram", async (req,res) => {
         try {
 
-            console.log(req.body);
-            // const { message: { chat: { id }, document } } = (req.body as any);
+            const { message: { from: {first_name, last_name}, chat: { id }, text } } = req.body as IMessageFromTelegram;
 
-            // const telegramSendImageOptions = {
-            //     url: `${TELEGRAM_API}/sendMessage?chat_id=${id}&${"text=Hello"}`,
-            //     method: "POST",
-            // }
+
+            const telegramSendImageOptions = {
+                url: `${TELEGRAM_API}/sendMessage?chat_id=${id}&${encodeURIComponent(text)}`,
+                method: "POST",
+            }
             
-            // await axios(telegramSendImageOptions);
+            await axios(telegramSendImageOptions);
 
             res.status(200).send("OK");
 
