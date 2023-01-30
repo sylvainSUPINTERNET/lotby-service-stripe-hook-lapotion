@@ -18,7 +18,19 @@ interface CustomRouteGenericQuery {
     Querystring: IQueryString
 }
 
+
+import { Telegraf } from "telegraf";
+const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN!);
+const telegramWebhook = bot.createWebhook({ domain: process.env.TELEGRAM_WEBHOOK_DOMAIN! });
+
+bot.on("message", ctx => ctx.reply("Hello"));
+
 export default async function (instance: FastifyInstance, opts: FastifyServerOptions, done:any) {
+
+    instance.post(bot.secretPathComponent(), async (req,res) => {
+            (await telegramWebhook)(req.raw, res.raw)
+    })
+    
 
     // This is parse payload as "raw". required for Stripe, but means if you need JSON you need to JSON.parse before ...
     instance.addContentTypeParser('application/json', { parseAs: 'string' }, function (req, body, done) { done(null, body); })
