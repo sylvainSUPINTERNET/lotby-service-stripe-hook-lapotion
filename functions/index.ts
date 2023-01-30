@@ -55,15 +55,17 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
     instance.post("/telegram", async (req,res) => {
         try {
 
-            const { message: { from: {first_name, last_name}, chat: { id }, text } } = req.body as IMessageFromTelegram;
+            console.log(req.body);
+
+            // const { message: { from: {first_name, last_name}, chat: { id }, text } } = req.body as IMessageFromTelegram;
 
 
-            const telegramSendImageOptions = {
-                url: `${TELEGRAM_API}/sendMessage?chat_id=${id}&${encodeURIComponent(text)}`,
-                method: "POST",
-            }
+            // const telegramSendImageOptions = {
+            //     url: `${TELEGRAM_API}/sendMessage?chat_id=${id}&${encodeURIComponent(text)}`,
+            //     method: "POST",
+            // }
             
-            await axios(telegramSendImageOptions);
+            // await axios(telegramSendImageOptions);
 
             res.status(200).send("OK");
 
