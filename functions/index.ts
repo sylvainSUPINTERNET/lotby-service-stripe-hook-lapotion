@@ -23,7 +23,12 @@ import { Telegraf } from "telegraf";
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN!);
 const telegramWebhook = bot.createWebhook({ domain: process.env.TELEGRAM_WEBHOOK_DOMAIN! });
 
-bot.on("text", ctx => ctx.reply("Hello"));
+bot.on("text", ctx => {    
+    console.log("what ?")
+    ctx.reply("Hello")
+});
+
+console.log(bot.secretPathComponent())
 
 export default async function (instance: FastifyInstance, opts: FastifyServerOptions, done:any) {
 
