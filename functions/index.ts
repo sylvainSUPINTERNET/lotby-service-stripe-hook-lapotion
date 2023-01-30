@@ -69,7 +69,7 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
             const message:IMessageFromTelegram = JSON.parse(req.body as string) as IMessageFromTelegram;
 
             const telegramSendImageOptions = {
-                url: `${TELEGRAM_API}/sendMessage?chat_id=${message.message.chat.id}&${"text".concat("=", encodeURIComponent(message.message.text))}"`,
+                url: `${TELEGRAM_API}/sendMessage?chat_id=${message.message.chat.id}&${"text".concat("=", encodeURIComponent(message.message.text))}`,
                 method: "POST",
             }
             
