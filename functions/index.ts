@@ -19,16 +19,12 @@ interface CustomRouteGenericQuery {
     Querystring: IQueryString
 }
 
-bot.on("text", ctx => {    
-    console.log("what ?")
-    ctx.reply("Hello")
-});
-
 export default async function (instance: FastifyInstance, opts: FastifyServerOptions, done:any) {
   
 
     
       instance.post(bot.secretPathComponent(), async (req,res) => {
+        console.log("the fuck");
               (await telegramWebhook)(req.raw, res.raw)
       })
 
