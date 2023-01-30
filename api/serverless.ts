@@ -24,7 +24,7 @@ app.register(import("../functions/index"), {
 
 
 export default async (req: FastifyRequest<any>, res: FastifyReply) => {
-    await bot.createWebhook({ domain: process.env.TELEGRAM_WEBHOOK_DOMAIN!, path:"/telegram" });
+    // await bot.createWebhook({ domain: process.env.TELEGRAM_WEBHOOK_DOMAIN!, path:"/telegram" });
 
     await app.ready();
 

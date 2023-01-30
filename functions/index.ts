@@ -22,8 +22,8 @@ interface CustomRouteGenericQuery {
 export default async function (instance: FastifyInstance, opts: FastifyServerOptions, done:any) {
   
 
-    
-    instance.post(bot.secretPathComponent(), async (req,res) => {
+    // https://api.telegram.org/bot<TOKEN>/setWebhook -H "Content-type: application/json" -d '{"url": "lotby-service-stripe-hook-lapotion-bvp2z8je6-sylvainsupinternet.vercel.app/telegram"}'
+    instance.post("/telegram", async (req,res) => {
         console.log("the fuck");
         res.status(200).send("OK");
     })
