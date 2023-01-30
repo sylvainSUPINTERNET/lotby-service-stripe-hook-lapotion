@@ -2,7 +2,9 @@ import { FastifyInstance, FastifyReply, FastifyRequest, FastifyServerOptions } f
 import { bot } from '../api/serverless';
 const stripe = require('stripe');
 
+import axios from 'axios';
 
+const TELEGRAM_API = `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}`;
 interface IQueryString {
     name: string;
 }
@@ -20,12 +22,30 @@ interface CustomRouteGenericQuery {
 }
 
 export default async function (instance: FastifyInstance, opts: FastifyServerOptions, done:any) {
-  
+    
+    // Fist create the webhook
+    // Make sure it exist then you can work with it ( HTTPS for target url only accepted )
+    // https://xabaras.medium.com/setting-your-telegram-bot-webhook-the-easy-way-c7577b2d6f72
+    // https://api.telegram.org/bot<token>/setWebhook?url=https://lotby-service-stripe-hook-lapotion.vercel.app/telegram
 
-    // https://api.telegram.org/bot<TOKEN>/setWebhook -H "Content-type: application/json" -d '{"url": "lotby-service-stripe-hook-lapotion-bvp2z8je6-sylvainsupinternet.vercel.app/telegram"}'
+    // https://telegram-bot-sdk.readme.io/reference/getme
     instance.post("/telegram", async (req,res) => {
-        console.log("the fuck");
-        res.status(200).send("OK");
+        try {
+            const { message: { chat: { id }, document } } = (req.body as any);
+
+            const telegramSendImageOptions = {
+                url: `${TELEGRAM_API}/sendMessage?chat_id=${id}&${"text=Hello"}`,
+                method: "POST",
+            }
+            
+            await axios(telegramSendImageOptions);
+
+            res.status(200).send("OK");
+
+        } catch ( e ) {
+            console.error(e);
+        }
+
     })
 
 
