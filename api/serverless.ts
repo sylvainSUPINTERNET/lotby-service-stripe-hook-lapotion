@@ -11,8 +11,8 @@ const app = Fastify({
 });
 
 import { Telegraf } from "telegraf";
-const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN!);
-const telegramWebhook = bot.createWebhook({ domain: process.env.TELEGRAM_WEBHOOK_DOMAIN! });
+export const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN!);
+export const telegramWebhook = bot.createWebhook({ domain: process.env.TELEGRAM_WEBHOOK_DOMAIN! });
 
 
 // Register your application as a normal plugin.
@@ -23,15 +23,7 @@ app.register(import("../functions/index"), {
 
 export default async (req: FastifyRequest<any>, res: FastifyReply) => {
 
-  
-    bot.on("text", ctx => {    
-      console.log("what ?")
-      ctx.reply("Hello")
-  });
-  
-    app.post(bot.secretPathComponent(), async (req,res) => {
-            (await telegramWebhook)(req.raw, res.raw)
-    })
+
 
     await app.ready();
     app.server.emit('request', req, res);
