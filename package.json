@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "vercel": "vercel dev --force"
+    "vercel": "vercel dev"
   },
   "author": "",
   "license": "ISC",
