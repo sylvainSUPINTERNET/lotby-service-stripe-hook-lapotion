@@ -59,7 +59,7 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
     instance.post("/telegram", async (req,res) => {
         try {
             // {"update_id":837341881,"message":{"message_id":24,"from":{"id":5550135310,"is_bot":false,"first_name":"Sylvain","last_name":"Joly","language_code":"fr"},"chat":{"id":5550135310,"first_name":"Sylvain","last_name":"Joly","type":"private"},"date":1675117544,"text":"eza"}}
-
+            console.log("niek bien ta mere")
             // Make sure to JSON.parse since we applied addContentTypeParser for Stripe webhook !
             const message:IMessageFromTelegram = JSON.parse(req.body as string) as IMessageFromTelegram;
             await applyCmd(message);
