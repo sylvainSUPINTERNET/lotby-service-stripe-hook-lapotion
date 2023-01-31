@@ -10,6 +10,8 @@ export const applyCmd = async ( message:IMessageFromTelegram  ): Promise<void> =
     if ( msg[0] === "/start" ) {
         if ( msg.length > 1 ) {
             if ( msg[1] === process.env.BOT_PASSWORD ) {
+
+                console.log("HEREEE");
                 // TODO save user in database with chatId ( upsert )
                 let response:string = encodeURIComponent(`[text URL](https://docs.pyrogram.org/)`);
 
