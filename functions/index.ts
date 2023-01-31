@@ -73,6 +73,7 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
                 method: "POST",
             }
             
+            
             await axios(telegramSendImageOptions);
 
             res.status(200).send("OK");
