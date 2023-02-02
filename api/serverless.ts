@@ -17,6 +17,8 @@ import { Telegraf } from "telegraf";
 export const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN!);
 
 
+console.log("STARTUP ?")
+
 // Register your application as a normal plugin.
 app.register(import("../functions/index"), {
     prefix: '/'
