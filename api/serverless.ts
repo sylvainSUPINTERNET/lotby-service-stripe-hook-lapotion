@@ -19,6 +19,8 @@ const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN!
 import { Telegraf } from "telegraf";
 export const bot = new Telegraf(telegramBotToken);
 
+console.log("startup")
+
 
 // Register your application as a normal plugin.
 app.register(import("../functions/index"), {
@@ -33,6 +35,7 @@ export default async (req: FastifyRequest<any>, res: FastifyReply) => {
     .after( async _err => {
       // since vercel free using dynamic hostname for each deployment
       try {
+        console.log("YIKES")
         let hostname = os.hostname();
         console.log(hostname); // e.g. lapotion-4pxsmbd4s-sylvainsupinternet.vercel.app
         await axios.get(`https://api.telegram.org/bot:${telegramBotToken}/setWebhook?url=https://${hostname}/telegram}`) 
