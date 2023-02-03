@@ -30,23 +30,24 @@ app.register(import("../functions/index"), {
 
 
 export default async (req: FastifyRequest<any>, res: FastifyReply) => {
+  console.log("startup")
   // https://www.fastify.io/docs/latest/Reference/Server/
     await app
-    .after( async _err => {
-      // since vercel free using dynamic hostname for each deployment
-      try {
-        console.log("YIKES")
-        let hostname = os.hostname();
-        console.log(hostname); // e.g. lapotion-4pxsmbd4s-sylvainsupinternet.vercel.app
-        await axios.get(`https://api.telegram.org/bot:${telegramBotToken}/setWebhook?url=https://${hostname}/telegram}`) 
-        await axios.get(`https://api.telegram.org/bot${telegramBotToken}/getWebhookInfo`);
-      } catch ( err ) {
-        console.log(err)
-      }
+    // .after( async _err => {
+    //   // since vercel free using dynamic hostname for each deployment
+    //   try {
+    //     console.log("YIKES")
+    //     let hostname = os.hostname();
+    //     console.log(hostname); // e.g. lapotion-4pxsmbd4s-sylvainsupinternet.vercel.app
+    //     await axios.get(`https://api.telegram.org/bot:${telegramBotToken}/setWebhook?url=https://${hostname}/telegram}`) 
+    //     await axios.get(`https://api.telegram.org/bot${telegramBotToken}/getWebhookInfo`);
+    //   } catch ( err ) {
+    //     console.log(err)
+    //   }
 
 
-      // https://api.telegram.org/bot<token>/setWebhook?url=lotby-service-stripe-hook-lapotion-4pxsmbd4s-sylvainsupinternet.vercel.app/telegram
+    //   // https://api.telegram.org/bot<token>/setWebhook?url=lotby-service-stripe-hook-lapotion-4pxsmbd4s-sylvainsupinternet.vercel.app/telegram
       
-    }).ready();
+    // }).ready();
     app.server.emit('request', req, res);
 }
