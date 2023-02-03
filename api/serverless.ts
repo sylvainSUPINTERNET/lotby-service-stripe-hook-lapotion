@@ -12,6 +12,8 @@ const app = Fastify({
   logger: false,
 });
 
+console.log("STARTUP");
+
 const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN!
 
 // Understand webhooks with telegram API : https://strapengine.com/telegram-bot-webhook-tutorial/
@@ -19,7 +21,7 @@ const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN!
 import { Telegraf } from "telegraf";
 export const bot = new Telegraf(telegramBotToken);
 
-console.log("startup")
+console.log("startupx")
 
 
 // Register your application as a normal plugin.
@@ -30,7 +32,7 @@ app.register(import("../functions/index"), {
 
 
 export default async (req: FastifyRequest<any>, res: FastifyReply) => {
-  console.log("startup")
+  console.log("startup5")
   // https://www.fastify.io/docs/latest/Reference/Server/
     await app
     // .after( async _err => {
@@ -49,5 +51,6 @@ export default async (req: FastifyRequest<any>, res: FastifyReply) => {
     //   // https://api.telegram.org/bot<token>/setWebhook?url=lotby-service-stripe-hook-lapotion-4pxsmbd4s-sylvainsupinternet.vercel.app/telegram
       
     // }).ready();
+    .ready();
     app.server.emit('request', req, res);
 }
