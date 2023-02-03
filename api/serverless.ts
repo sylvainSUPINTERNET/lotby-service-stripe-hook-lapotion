@@ -27,19 +27,26 @@ app.register(import("../functions/index"), {
 })
 
 
+  // Since we have a free plan on vercel, we need to set the webhook dynamically ( new url for each build ) 
+
+let url = `https://${process.env.VERCEL_URL}/telegram`
+try {
+  axios.get(`https://api.telegram.org/bot${telegramBotToken}/setWebhook?url=${url}`)
+  .then( res => {
+    console.log(res.status);
+  })
+  .catch( err => {
+    console.log(err)
+  });
+} catch ( e ) {
+  console.log(e)
+}
+
+
+
 
 export default async (req: FastifyRequest<any>, res: FastifyReply) => {
-  console.log("exddd" , process.env.VERCEL_URL)
 
-  // Since we have a free plan on vercel, we need to set the webhook dynamically ( new url for each build ) 
-  let url = `https://${process.env.VERCEL_URL}/telegram`
-  
-  try {
-    await axios.get(`https://api.telegram.org/bot${telegramBotToken}/setWebhook?url=${url}`);
-  } catch ( e ) {
-    console.log(e)
-  }
-  
   // https://www.fastify.io/docs/latest/Reference/Server/
     await app
     // .after( async _err => {
