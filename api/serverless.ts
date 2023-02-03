@@ -33,6 +33,8 @@ app.register(import("../functions/index"), {
 
 export default async (req: FastifyRequest<any>, res: FastifyReply) => {
   console.log("startup5")
+  console.log(os.hostname());
+  
   // https://www.fastify.io/docs/latest/Reference/Server/
     await app
     // .after( async _err => {
