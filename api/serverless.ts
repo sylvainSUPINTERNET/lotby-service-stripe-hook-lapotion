@@ -33,9 +33,12 @@ export default async (req: FastifyRequest<any>, res: FastifyReply) => {
 
   // Since we have a free plan on vercel, we need to set the webhook dynamically ( new url for each build ) 
   // let url = `https://${process.env.VERCEL_URL}/telegram`
-    let url = ""//`https://lotby-service-stripe-hook-lapotion.vercel.app/telegram`
+    let url = `https://lotby-service-stripe-hook-lapotion.vercel.app/telegram`
   try {
+    // await axios.get(`https://api.telegram.org/bot${telegramBotToken}/getWebhookInfo`);
+
     await axios.get(`https://api.telegram.org/bot${telegramBotToken}/setWebhook?url=${url}`);
+
   } catch ( e ) {
     console.log(e)
   }
