@@ -12,7 +12,6 @@ const app = Fastify({
   logger: false,
 });
 
-console.log("STARTUP");
 
 const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN!
 
@@ -20,8 +19,6 @@ const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN!
 // https://www.marclittlemore.com/serverless-telegram-chatbot-vercel/
 import { Telegraf } from "telegraf";
 export const bot = new Telegraf(telegramBotToken);
-
-console.log("startupx")
 
 
 // Register your application as a normal plugin.
@@ -32,9 +29,16 @@ app.register(import("../functions/index"), {
 
 
 export default async (req: FastifyRequest<any>, res: FastifyReply) => {
-  console.log("startup5")
-  console.log(os.hostname());
   console.log("exddd" , process.env.VERCEL_URL)
+
+  // Since we have a free plan on vercel, we need to set the webhook dynamically ( new url for each build ) 
+  let url = `https://${process.env.VERCEL_URL}/telegram`
+  
+  try {
+    await axios.get(`https://api.telegram.org/bot${telegramBotToken}/setWebhook?url=${url}`);
+  } catch ( e ) {
+    console.log(e)
+  }
   
   // https://www.fastify.io/docs/latest/Reference/Server/
     await app
