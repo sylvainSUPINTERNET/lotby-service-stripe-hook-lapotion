@@ -16,7 +16,6 @@ export const applyCmd = async ( message:IMessageFromTelegram, telegramToken:stri
         } 
     }
 
-
     return
     
 }
