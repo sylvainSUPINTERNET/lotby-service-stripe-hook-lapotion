@@ -27,7 +27,7 @@ export const notifySubscribersForNewPayment = async ( telegramToken: string, pay
                 const pi = payloadWebHookStripe.data.object.id;
                 const amount = payloadWebHookStripe.data.object.amount;
                 const url = `https://dashboard.stripe.com/payments/${pi}`;
-                const msg = `<a href="${url}">New payment</a> for **${(parseFloat(amount) / 100).toFixed(2)}**`;
+                const msg = `<a href="${url}">New payment</a> for **${(parseFloat(amount) / 100).toFixed(2)}EUR**`;
                 bot.telegram.sendMessage(users[i].chatId, `${msg}`, { parse_mode: 'HTML' });
             }
         }
