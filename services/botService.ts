@@ -16,8 +16,6 @@ export const notifySubscribersForNewPayment = async ( telegramToken: string, pay
         await session.commitTransaction();
         await session.endSession();
         client.close();
-        
-        console.log(users);
 
         const bot = new Telegraf(telegramToken);
 
@@ -27,7 +25,8 @@ export const notifySubscribersForNewPayment = async ( telegramToken: string, pay
                 const pi = payloadWebHookStripe.data.object.id;
                 const amount = payloadWebHookStripe.data.object.amount;
                 const url = `https://dashboard.stripe.com/payments/${pi}`;
-                bot.telegram.sendMessage(users[i].chatId, `New [payment](${url}) for **${(parseFloat(amount) / 100).toFixed(2)}**`, { parse_mode: 'MarkdownV2' });
+                const msg = `<a href="${url}">New payment</a> for **${(parseFloat(amount) / 100).toFixed(2)}**`;
+                bot.telegram.sendMessage(users[i].chatId, `${msg}`, { parse_mode: 'HTML' });
             }
         }
 
@@ -37,6 +36,24 @@ export const notifySubscribersForNewPayment = async ( telegramToken: string, pay
         const bot = new Telegraf(telegramToken);
         console.log("Payment error");
         console.log(e);
+
+        const client = await MongoClient.connect(process.env.DB_CONN_STRING!);
+        const userCollection = client.db(DB_NAME).collection(USERS_COLLECTION);
+        const session = client.startSession();
+        session.startTransaction();
+        const query = { "chatId": { $exists: true } }
+        const users = await userCollection.find(query).toArray();
+        await session.commitTransaction();
+        await session.endSession();
+        client.close();
+
+        if ( users.length > 0 ) {
+            
+            for ( let i=0; i< users.length; i++ ) {
+                const msg = `Payment error: ${e}`;
+                bot.telegram.sendMessage(users[i].chatId, `${msg}`, { parse_mode: 'HTML' });
+            }
+        }
     }
 }
 
