@@ -68,7 +68,11 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
 
         } catch ( e ) {
             console.error(e);
-            await applyCmdError(`${e}`);
+            const message:IMessageFromTelegram = JSON.parse(req.body as string) as IMessageFromTelegram;
+            await applyCmdError(`${e}`,  process.env.TELEGRAM_BOT_TOKEN!, message);
+
+            res.status(400).send("KO");
+
         }
 
     })
@@ -79,6 +83,7 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
     instance
     .post("/webhook", async (req: FastifyRequest, res: FastifyReply) => { 
         const signature = req.headers['stripe-signature'];
+        console.log("signature", signature)
 
         // Webhook secret => TODO : move to env and using different dev / prod
 

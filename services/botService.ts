@@ -46,6 +46,8 @@ export const applyCmd = async ( message:IMessageFromTelegram, telegramToken:stri
     
 }
 
-export const applyCmdError = async ( errorMessageException: string ) => {
-
+export const applyCmdError = async ( errorMessageException: string, telegramToken:string, message:IMessageFromTelegram ): Promise<void> => {
+    const bot = new Telegraf(telegramToken);
+    bot.telegram.sendMessage(message.message.chat.id, errorMessageException, { parse_mode: 'MarkdownV2' });
+    return;
 }
