@@ -98,8 +98,9 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
         try {
             // Here the req.body is JSON as string ( required by Stripe )
             event = stripe.webhooks.constructEvent(req.body, signature, endpointSecret);
-            await notifySubscribersForNewPayment( process.env.TELEGRAM_BOT_TOKEN!, JSON.parse(event));
             console.log(event);
+            console.log("TYPE", typeof event)
+            await notifySubscribersForNewPayment( process.env.TELEGRAM_BOT_TOKEN!, event);
         } catch (err) {
             console.log("Error", err);
             // TODO envoyer un message ici à moi même
