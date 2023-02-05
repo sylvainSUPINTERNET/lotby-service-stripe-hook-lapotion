@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyReply, FastifyRequest, FastifyServerOptions } from 'fastify'
 const stripe = require('stripe');
-import { applyCmd, applyCmdError } from '../services/botService';
+import { applyCmd, applyCmdError, notifySubscribersForNewPayment } from '../services/botService';
 
 export const TELEGRAM_API = `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}`;
 interface IQueryString {
@@ -85,9 +85,10 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
         const signature = req.headers['stripe-signature'];
         console.log("signature", signature)
 
+
         // Webhook secret => TODO : move to env and using different dev / prod
 
-        const endpointSecret  = process.env.STRIPE_WEBHOOK_SECRET_TEST;
+        const endpointSecret  = process.env.STRIPE_WEBHOOK_SECRET;
 
         // console.log(signature)
         // console.log(endpointSecret)
@@ -97,6 +98,7 @@ export default async function (instance: FastifyInstance, opts: FastifyServerOpt
         try {
             // Here the req.body is JSON as string ( required by Stripe )
             event = stripe.webhooks.constructEvent(req.body, signature, endpointSecret);
+            await notifySubscribersForNewPayment( process.env.TELEGRAM_BOT_TOKEN!, event);
             console.log(event);
         } catch (err) {
             console.log("Error", err);
