@@ -31,7 +31,7 @@ export const applyCmd = async ( message:IMessageFromTelegram, telegramToken:stri
                     await userCollection.updateOne(query, update, option);
                     await session.endSession();
                     client.close();
-                    bot.telegram.sendMessage(message.message.chat.id, 'Added with success !', { parse_mode: 'MarkdownV2' });
+                    bot.telegram.sendMessage(message.message.chat.id, 'Added with success', { parse_mode: 'MarkdownV2' });
                 } catch ( e ) {
                     console.log(e);
                     bot.telegram.sendMessage(message.message.chat.id, `${e}`, { parse_mode: 'MarkdownV2' });
