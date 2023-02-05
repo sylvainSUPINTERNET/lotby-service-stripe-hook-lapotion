@@ -19,7 +19,6 @@ export const notifySubscribersForNewPayment = async ( telegramToken: string, pay
 
         const bot = new Telegraf(telegramToken);
 
-
         if ( users.length > 0 ) {
             
             for ( let i=0; i< users.length; i++ ) {
@@ -30,9 +29,11 @@ export const notifySubscribersForNewPayment = async ( telegramToken: string, pay
             }
         }
 
+        console.log("Send payment OK");
+
     } catch ( e ) {
         const bot = new Telegraf(telegramToken);
-
+        console.log("Payment error");
         console.log(e);
     }
 }
