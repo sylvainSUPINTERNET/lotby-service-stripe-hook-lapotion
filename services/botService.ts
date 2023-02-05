@@ -19,6 +19,8 @@ export const notifySubscribersForNewPayment = async ( telegramToken: string, pay
 
         const bot = new Telegraf(telegramToken);
 
+
+        console.log("LENGTH", users.length)
         if ( users.length > 0 ) {
             
             for ( let i=0; i< users.length; i++ ) {
