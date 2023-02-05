@@ -11,10 +11,13 @@ export const notifySubscribersForNewPayment = async ( telegramToken: string, pay
         const userCollection = client.db(DB_NAME).collection(USERS_COLLECTION);
         const session = client.startSession();
         session.startTransaction();
-        const users = await userCollection.find().toArray();
+        const query = { "chatId": { $exists: true } }
+        const users = await userCollection.find(query).toArray();
         await session.commitTransaction();
         await session.endSession();
         client.close();
+        
+        console.log(users);
 
         const bot = new Telegraf(telegramToken);
 
