@@ -23,12 +23,13 @@ export const applyCmd = async ( message:IMessageFromTelegram, telegramToken:stri
                         $set: {
                             "chatId": message.message.chat.id
                         }
-                    }
+                    };
                     const option = {
                         upsert: true,
                         session
-                    }
+                    };
                     await userCollection.updateOne(query, update, option);
+                    await session.commitTransaction();
                     await session.endSession();
                     client.close();
                     bot.telegram.sendMessage(message.message.chat.id, 'Added with success', { parse_mode: 'MarkdownV2' });
